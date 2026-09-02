@@ -1,0 +1,2 @@
+﻿Friend Module CharacterBiologyExtensions
+End Module

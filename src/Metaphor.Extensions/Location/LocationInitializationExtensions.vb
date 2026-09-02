@@ -1,0 +1,2 @@
+﻿Friend Module LocationInitializationExtensions
+End Module
