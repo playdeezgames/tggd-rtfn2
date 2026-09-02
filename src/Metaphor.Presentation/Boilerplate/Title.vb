@@ -10,9 +10,11 @@ Public Class Title
     End Sub
 
     Public Overrides Function Run() As IDialogPrompt
-        Context.Render("Beneath the Blue Room", New Dictionary(Of String, String) From {{HintNames.ELEMENT_TYPE, ElementTypes.TITLE}})
+        Context.Render("Feretory of SPLORR!!", New Dictionary(Of String, String) From {{HintNames.ELEMENT_TYPE, ElementTypes.TITLE}})
         Context.Render("A Production of ", newLine:=False)
         Context.Render("TheGrumpyGameDev", New Dictionary(Of String, String) From {{HintNames.ELEMENT_TYPE, ElementTypes.LINK}, {HintNames.URL, "https://thegrumpygamedev.itch.io/"}})
+        Context.Render("For: ")
+        Context.Render("roguetemple's Fortnight 2", New Dictionary(Of String, String) From {{HintNames.ELEMENT_TYPE, ElementTypes.LINK}, {HintNames.URL, "https://itch.io/jam/roguetemples-fortnight-2"}})
         Context.Render("Sponsored by: ")
         Context.Render("UMLAUT.FYI!", New Dictionary(Of String, String) From {{HintNames.ELEMENT_TYPE, ElementTypes.LINK}, {HintNames.URL, "https://umlaut.fyi/"}})
         Context.Render("Pen 15!", New Dictionary(Of String, String) From {{HintNames.ELEMENT_TYPE, ElementTypes.LINK}, {HintNames.URL, "https://pen15.site/"}})

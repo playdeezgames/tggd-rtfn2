@@ -33,18 +33,6 @@ Friend Class AvatarModel
         End Get
     End Property
 
-    Public ReadOnly Property Equipment As IEquipmentModel Implements IAvatarModel.Equipment
-        Get
-            Return EquipmentModel.Create(avatar)
-        End Get
-    End Property
-
-    Public ReadOnly Property Combat As IAvatarCombatModel Implements IAvatarModel.Combat
-        Get
-            Return AvatarCombatModel.Create(avatar)
-        End Get
-    End Property
-
     Friend Shared Function Create(avatar As ICharacter) As IAvatarModel
         Return New AvatarModel(avatar)
     End Function

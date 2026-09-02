@@ -6,7 +6,7 @@ Friend Module MapInitializationExtensions
         {
             "####################",
             "#..................#",
-            "#..c............r..#",
+            "#..................#",
             "#..................#",
             "#..................#",
             "#..................#",
@@ -28,18 +28,8 @@ Friend Module MapInitializationExtensions
         {
             {"#"c, (LocationSubtypes.WALL, "Wall", AddressOf InitializeBlueWall)},
             {"."c, (LocationSubtypes.FLOOR, "Floor", Nothing)},
-            {"@"c, (LocationSubtypes.FLOOR, "Floor", AddressOf InitializeAvatar)},
-            {"c"c, (LocationSubtypes.FLOOR, "Floor", AddressOf InitializeChest)},
-            {"r"c, (LocationSubtypes.FLOOR, "Floor", AddressOf InitializeRat)}
+            {"@"c, (LocationSubtypes.FLOOR, "Floor", AddressOf InitializeAvatar)}
         }
-
-    Private Sub InitializeRat(location As ILocation)
-        location.CreateCharacter(CharacterSubtypes.RAT, "Rat", AddressOf CharacterInitializationExtensions.InitializeRat)
-    End Sub
-
-    Private Sub InitializeChest(location As ILocation)
-        location.CreateFeature(FeatureSubtypes.CHEST, "Chest", AddressOf FeatureInitializationExtensions.InitializeBlueRoomChest)
-    End Sub
 
     Private Sub InitializeAvatar(location As ILocation)
         location.CreateCharacter(CharacterSubtypes.N00B, location.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)

@@ -21,18 +21,12 @@ Friend Class NavigationMenu
                 Concat(Model.Avatar.AvailableVerbs.Select(AddressOf ChooseAvatarVerb)).
                 Append(AddressOf ChooseGround).
                 Append(AddressOf ChooseInventory).
-                Append(AddressOf ChooseEquipment).
                 Concat(Model.Location.Characters.Others.Select(AddressOf ChooseOtherCharacter)).
                 Concat(Model.Location.Features.AllVisible.Select(AddressOf ChooseFeature)).
                 Append(AddressOf InPlay.ChooseWatchAd).
                 Append(AddressOf InPlay.ChooseGameMenu)
         End Get
     End Property
-
-    Private Function ChooseEquipment(context As IDisplayContext, model As IWorldModel, previous As DialogSource) As IDialogChoice
-        Return DialogChoice.Create(
-            model.Avatar.Equipment.HasItems, "Equipment...", EquipmentMenu.Launch(context, model, previous))
-    End Function
 
     Private Function ChooseOtherCharacter(characterModel As ICharacterModel) As LaunchDelegate
         Return Function(c, m, p)

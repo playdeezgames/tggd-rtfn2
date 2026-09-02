@@ -2,5 +2,4 @@
     Private Sub New()
     End Sub
     Public Const N00B As String = NameOf(N00B)
-    Public Const RAT As String = NameOf(RAT)
 End Class

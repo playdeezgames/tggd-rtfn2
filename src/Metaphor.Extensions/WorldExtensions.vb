@@ -17,7 +17,7 @@ Public Module WorldExtensions
         world.Clear()
         world.SetMetadata(Metadatas.CHOSEN_NAME, chosenName)
         world.CreateBlueRoom()
-        world.AddMessage("Welcome to Beneath the Blue Room")
+        world.AddMessage("Welcome to Feretory of SPLORR!!")
         world.Avatar.Look()
     End Sub
 End Module

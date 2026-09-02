@@ -6,9 +6,6 @@ Public Module CharacterExtensions
     <Extension>
     Public Sub ShowStatus(character As ICharacter)
         character.AddMessage($"Status:")
-        character.AddMessage($"Health: {character.GetCounterStatistic(Counters.HEALTH)}")
-        character.AddMessage($"Attack: {character.GetAttack()}(Cap {character.GetAttackCap()})")
-        character.AddMessage($"Defend: {character.GetDefend()}(Cap {character.GetDefendCap()})")
     End Sub
 #End Region
 #Region "Look"

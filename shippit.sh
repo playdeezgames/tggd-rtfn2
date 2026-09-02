@@ -10,7 +10,7 @@ rm -f ./pub-linux/*.pdb
 rm -f ./pub-windows/*.pdb
 rm -f ./pub-mac/*.pdb
 rm -f ./pub-html/*.pdb
-butler push pub-windows thegrumpygamedev/beneath-the-blue-room:windows
-butler push pub-linux thegrumpygamedev/beneath-the-blue-room:linux
-butler push pub-mac thegrumpygamedev/beneath-the-blue-room:mac
-butler push pub-html/wwwroot thegrumpygamedev/beneath-the-blue-room:html
+butler push pub-windows thegrumpygamedev/tggd-rtfn2:windows
+butler push pub-linux thegrumpygamedev/tggd-rtfn2:linux
+butler push pub-mac thegrumpygamedev/tggd-rtfn2:mac
+butler push pub-html/wwwroot thegrumpygamedev/tggd-rtfn2:html

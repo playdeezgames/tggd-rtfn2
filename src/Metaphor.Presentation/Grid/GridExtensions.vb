@@ -6,16 +6,13 @@ Imports TGGD.Presentation
 Friend Module GridExtensions
     Private ReadOnly featureTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
-            {FeatureSubtypes.CHEST, (127, &H6)}
         }
     Private ReadOnly itemTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
-            {ItemSubtypes.DAGGER, (CByte(Asc("-")), &H8)}
         }
     Private ReadOnly characterTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
-            {CharacterSubtypes.N00B, (2, &HF)},
-            {CharacterSubtypes.RAT, (CByte(Asc("r")), &H8)}
+            {CharacterSubtypes.N00B, (2, &HF)}
         }
     Private ReadOnly locationTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
