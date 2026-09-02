@@ -49,7 +49,7 @@ Module Program
         If Not characterXform.TryGetValue(cell.Character, xform) Then
             xform = Chr(CInt(cell.Character))
         End If
-        AnsiConsole.Markup(xform)
+        AnsiConsole.Markup($"{xform} ")
     End Sub
 
     Private Sub ReadPrompt(prompt As IDialogPrompt)

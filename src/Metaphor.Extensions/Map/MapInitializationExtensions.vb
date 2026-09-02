@@ -2,54 +2,23 @@
 
 Friend Module MapInitializationExtensions
 #Region "Blue Room"
-    Private ReadOnly blueRoom As String() =
-        {
-            "####################",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#.........@........#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "#..................#",
-            "####################"
-        }
-    Private ReadOnly blueRoomDeets As New Dictionary(Of
-            Char,
-                (Subtype As String,
-                Name As String,
-                LocationInitializer As LocationInitializer)) From
-        {
-            {"#"c, (LocationSubtypes.WALL, "Wall", AddressOf InitializeBlueWall)},
-            {"."c, (LocationSubtypes.FLOOR, "Floor", Nothing)},
-            {"@"c, (LocationSubtypes.FLOOR, "Floor", AddressOf InitializeAvatar)}
-        }
-
-    Private Sub InitializeAvatar(location As ILocation)
-        location.CreateCharacter(CharacterSubtypes.N00B, location.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
-    End Sub
 
     Private Sub InitializeBlueWall(location As ILocation)
         location.SetTag(Tags.BLOCKED)
     End Sub
 
     Friend Sub InitializeBlueRoom(map As IMap)
-        Dim row = 0
-        For Each line In blueRoom
-            Dim column = 0
-            For Each character In line
-                Dim deets = blueRoomDeets(character)
-                Dim location = map.CreateLocation(deets.Subtype, deets.Name, (column, row), deets.LocationInitializer)
-                column += 1
+        Dim size = map.Size
+        For Each column In Enumerable.Range(0, size.Columns)
+            For Each row In Enumerable.Range(0, size.Rows)
+                If column = 0 OrElse row = 0 OrElse column = size.Columns - 1 OrElse row = size.Rows - 1 Then
+                    map.CreateLocation(LocationSubtypes.WALL, "wall", (column, row), AddressOf InitializeBlueWall)
+                Else
+                    map.CreateLocation(LocationSubtypes.FLOOR, "floor", (column, row))
+                End If
             Next
-            row += 1
         Next
+        map.GetLocation(size.Columns \ 2, size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
 #End Region
 End Module
