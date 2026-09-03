@@ -12,11 +12,22 @@ Public Module WorldExtensions
             AddressOf MapInitializationExtensions.InitializeBlueRoom)
     End Function
 #End Region
+
+#Region "Other Room"
+    <Extension>
+    Private Function CreateOtherRoom(world As IWorld, blueRoom As IMap) As IMap
+        Return world.CreateMap(
+            MapSubtypes.OTHER_ROOM,
+            "The Other Blue Room",
+            (Grimoire.ROOM_COLUMNS, Grimoire.ROOM_ROWS),
+            MapInitializationExtensions.InitializeOtherBlueRoom(blueRoom))
+    End Function
+#End Region
     <Extension>
     Public Sub Initialize(world As IWorld, chosenName As String)
         world.Clear()
         world.SetMetadata(Metadatas.CHOSEN_NAME, chosenName)
-        world.CreateBlueRoom()
+        world.CreateOtherRoom(world.CreateBlueRoom())
         world.AddMessage("Welcome to Feretory of SPLORR!!")
         world.Avatar.Look()
     End Sub

@@ -61,7 +61,11 @@ Friend Class Location
     End Property
 
     Public Overrides Sub Remove()
-        Throw New NotImplementedException()
+        Dim map = Me.Map
+        If map IsNot Nothing Then
+            map.RemoveFromYokage(Yokages.LOCATIONS, EntityId)
+        End If
+        _data.Entities.Remove(EntityId)
     End Sub
 
     Friend Shared Function Create(world As IWorld, data As WorldData, locationId As Guid?) As ILocation

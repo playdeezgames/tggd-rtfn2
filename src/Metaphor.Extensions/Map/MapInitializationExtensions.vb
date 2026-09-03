@@ -8,6 +8,14 @@ Friend Module MapInitializationExtensions
     End Sub
 
     Friend Sub InitializeBlueRoom(map As IMap)
+        InitializeRoom(map)
+        map.GetLocation(map.Size.Columns \ 2, 0).Remove()
+        map.CreateLocation(LocationSubtypes.FLOOR, "floor", (map.Size.Columns \ 2, 0))
+        Dim size = map.Size
+        map.GetLocation(size.Columns \ 2, size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
+    End Sub
+
+    Private Sub InitializeRoom(map As IMap)
         Dim size = map.Size
         For Each column In Enumerable.Range(0, size.Columns)
             For Each row In Enumerable.Range(0, size.Rows)
@@ -18,7 +26,14 @@ Friend Module MapInitializationExtensions
                 End If
             Next
         Next
-        map.GetLocation(size.Columns \ 2, size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
+
+    Friend Function InitializeOtherBlueRoom(blueRoom As IMap) As MapInitializer
+        Return Sub(map)
+                   InitializeRoom(map)
+                   blueRoom.GetLocation(blueRoom.Size.Columns \ 2, 0).CreateFeature(FeatureSubtypes.DOOR, "door")
+                   map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 1).CreateFeature(FeatureSubtypes.DOOR, "door")
+               End Sub
+    End Function
 #End Region
 End Module

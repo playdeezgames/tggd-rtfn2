@@ -40,8 +40,7 @@ Module Program
 
     Private ReadOnly characterXform As New Dictionary(Of Byte, String) From
         {
-            {2, "@"},
-            {127, "c"}
+            {2, "@"}
         }
 
     Private Sub RenderGridCell(cell As IGridCell)
