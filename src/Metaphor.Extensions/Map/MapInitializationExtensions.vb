@@ -31,8 +31,10 @@ Friend Module MapInitializationExtensions
     Friend Function InitializeOtherBlueRoom(blueRoom As IMap) As MapInitializer
         Return Sub(map)
                    InitializeRoom(map)
-                   blueRoom.GetLocation(blueRoom.Size.Columns \ 2, 0).CreateFeature(FeatureSubtypes.DOOR, "door")
-                   map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 1).CreateFeature(FeatureSubtypes.DOOR, "door")
+                   map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 1).Remove()
+                   map.CreateLocation(LocationSubtypes.FLOOR, "floor", (map.Size.Columns \ 2, map.Size.Rows - 1))
+                   blueRoom.GetLocation(blueRoom.Size.Columns \ 2, 0).CreateDoor(map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 2))
+                   map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 1).CreateDoor(blueRoom.GetLocation(blueRoom.Size.Columns \ 2, 1))
                End Sub
     End Function
 #End Region

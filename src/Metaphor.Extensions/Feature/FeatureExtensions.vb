@@ -18,4 +18,14 @@ Public Module FeatureExtensions
             DescribeFeature(feature)
         End If
     End Sub
+#Region "Destination"
+    <Extension>
+    Friend Sub SetDestination(feature As IFeature, location As ILocation)
+        feature.SetYoke(Yokes.DESTINATION, location.EntityId)
+    End Sub
+    <Extension>
+    Friend Function GetDestination(feature As IFeature) As ILocation
+        Return feature.World.GetLocation(feature.GetYoke(Yokes.DESTINATION))
+    End Function
+#End Region
 End Module

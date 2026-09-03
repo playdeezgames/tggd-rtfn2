@@ -21,4 +21,13 @@ Public Module LocationExtensions
         Return location.CreateCharacter(CharacterSubtypes.N00B, name, AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Function
 #End Region
+#Region "Door"
+    <Extension>
+    Friend Function CreateDoor(fromLocation As ILocation, toLocation As ILocation) As IFeature
+        Dim feature = fromLocation.CreateFeature(FeatureSubtypes.DOOR, "door")
+        feature.SetDestination(toLocation)
+        feature.CreateVerb(VerbSubtypes.ENTER, "Enter")
+        Return feature
+    End Function
+#End Region
 End Module
