@@ -4,13 +4,21 @@ Imports TGGD.Extensions
 
 Public Module WorldExtensions
 #Region "Maze"
-    Private ReadOnly directionTable As New Dictionary(Of String, MazeDirection(Of String)) From
+    Friend ReadOnly directionTable As New Dictionary(Of String, MazeDirection(Of String)) From
         {
             {Directions.NORTH, New MazeDirection(Of String)(Directions.SOUTH, 0, -1)},
             {Directions.EAST, New MazeDirection(Of String)(Directions.WEST, 1, 0)},
             {Directions.SOUTH, New MazeDirection(Of String)(Directions.NORTH, 0, 1)},
             {Directions.WEST, New MazeDirection(Of String)(Directions.EAST, -1, 0)}
         }
+    <Extension>
+    Private Function GetMazeRooms(world As IWorld) As IEnumerable(Of IMap)
+        Return world.GetYokage(Yokages.MAZE_ROOMS).Select(Function(x) world.GetMap(x))
+    End Function
+    <Extension>
+    Friend Function GetMazeRoom(world As IWorld, mazeColumn As Integer, mazeRow As Integer) As IMap
+        Return world.GetMazeRooms().SingleOrDefault(Function(x) x.GetMazeColumn() = mazeColumn AndAlso x.GetMazeRow() = mazeRow)
+    End Function
     <Extension>
     Private Sub CreateMaze(world As IWorld)
         Dim mazeColumns = world.GetCounter(Counters.MAZE_COLUMNS)
@@ -22,6 +30,13 @@ Public Module WorldExtensions
                 world.CreateMazeRoom(maze.GetCell(mazeColumn, mazeRow), mazeColumn, mazeRow)
             Next
         Next
+        For Each mazeRoom In world.GetMazeRooms()
+            Dim mazeColumn = mazeRoom.GetMazeColumn()
+            Dim mazeRow = mazeRoom.GetMazeRow()
+            Dim mazeCell = maze.GetCell(mazeColumn, mazeRow)
+            mazeRoom.PopulateDoors(mazeCell)
+        Next
+
 
         Dim map = world.GetMap(world.GetYokage(Yokages.MAZE_ROOMS).First())
         map.GetLocation(map.Size.Columns \ 2, map.Size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
