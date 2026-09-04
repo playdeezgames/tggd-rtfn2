@@ -1,18 +1,9 @@
 ﻿Imports Metaphor.Persistence
+Imports TGGD.Extensions
 
 Friend Module MapInitializationExtensions
-#Region "Blue Room"
-
     Private Sub InitializeBlueWall(location As ILocation)
         location.SetTag(Tags.BLOCKED)
-    End Sub
-
-    Friend Sub InitializeBlueRoom(map As IMap)
-        InitializeRoom(map)
-        map.GetLocation(map.Size.Columns \ 2, 0).Remove()
-        map.CreateLocation(LocationSubtypes.FLOOR, "floor", (map.Size.Columns \ 2, 0))
-        Dim size = map.Size
-        map.GetLocation(size.Columns \ 2, size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
 
     Private Sub InitializeRoom(map As IMap)
@@ -27,15 +18,19 @@ Friend Module MapInitializationExtensions
             Next
         Next
     End Sub
-
-    Friend Function InitializeOtherBlueRoom(blueRoom As IMap) As MapInitializer
+    Friend Function InitializeMazeRoom(mazeCell As MazeCell(Of String), mazeColumn As Integer, mazeRow As Integer) As MapInitializer
         Return Sub(map)
                    InitializeRoom(map)
-                   map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 1).Remove()
-                   map.CreateLocation(LocationSubtypes.FLOOR, "floor", (map.Size.Columns \ 2, map.Size.Rows - 1))
-                   blueRoom.GetLocation(blueRoom.Size.Columns \ 2, 0).CreateDoor(map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 2))
-                   map.GetLocation(map.Size.Columns \ 2, map.Size.Rows - 1).CreateDoor(blueRoom.GetLocation(blueRoom.Size.Columns \ 2, 1))
+                   map.SetCounter(Counters.MAZE_COLUMN, mazeColumn)
+                   map.SetCounter(Counters.MAZE_ROW, mazeRow)
+                   map.World.AddToYokage(Yokages.MAZE_ROOMS, map.EntityId)
+                   For Each direction In mazeCell.Directions
+                       If mazeCell.GetDoor(direction).Open Then
+                           Dim doorLocation = map.GetMazeDoorLocation(direction)
+                           map.GetLocation(doorLocation.Column, doorLocation.Row).Remove()
+                           map.CreateLocation(LocationSubtypes.FLOOR, "floor", (doorLocation.Column, doorLocation.Row))
+                       End If
+                   Next
                End Sub
     End Function
-#End Region
 End Module

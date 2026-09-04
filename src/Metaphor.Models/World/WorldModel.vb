@@ -40,7 +40,7 @@ Public Class WorldModel
 
     Public Sub Embark(chosenName As String) Implements IWorldModel.Embark
         Abandon()
-        Entity.Initialize(chosenName)
+        Entity.Initialize(chosenName, (5, 4))
     End Sub
 
     Public Sub Abandon() Implements IWorldModel.Abandon
