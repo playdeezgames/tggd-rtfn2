@@ -15,6 +15,10 @@ Public Module CharacterStatisticExtensions
         Return character.GetCounter(Counters.STOMACH)
     End Function
     <Extension>
+    Friend Function GetBowel(character As ICharacter) As Integer
+        Return character.GetCounter(Counters.BOWEL)
+    End Function
+    <Extension>
     Friend Function GetSatiety(character As ICharacter) As Integer
         Return character.GetCounter(Counters.SATIETY)
     End Function
@@ -28,7 +32,8 @@ Public Module CharacterStatisticExtensions
         {
             {Counters.STOMACH, "stomach"},
             {Counters.HEALTH, "health"},
-            {Counters.SATIETY, "satiety"}
+            {Counters.SATIETY, "satiety"},
+            {Counters.BOWEL, "bowel"}
         }
     <Extension>
     Friend Function DoChangeCounter(character As ICharacter, counterId As String, delta As Integer, Optional silent As Boolean = False) As Integer

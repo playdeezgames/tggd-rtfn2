@@ -6,7 +6,8 @@ Imports TGGD.Presentation
 Friend Module GridExtensions
     Private ReadOnly featureTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
-            {FeatureSubtypes.DOOR, (CByte(Asc("+")), 6)}
+            {FeatureSubtypes.DOOR, (CByte(Asc("+")), 6)},
+            {FeatureSubtypes.POO_PILE, (CByte(Asc("~")), 6)}
         }
     Private ReadOnly itemTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {

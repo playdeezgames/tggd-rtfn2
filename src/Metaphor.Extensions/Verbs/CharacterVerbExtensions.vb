@@ -7,8 +7,13 @@ Public Module CharacterVerbExtensions
 
     Private ReadOnly canPerformTable As New Dictionary(Of String, CanPerformHandler) From
         {
-            {VerbSubtypes.MOVE, AddressOf CanMove}
+            {VerbSubtypes.MOVE, AddressOf CanMove},
+            {VerbSubtypes.POOP, AddressOf CanPoop}
         }
+
+    Private Function CanPoop(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
+        Return actor.GetCounter(Counters.BOWEL) >= actor.GetCounterMaximum(Counters.BOWEL) \ 2
+    End Function
 
     Private Function CanMove(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
         Return Not actor.IsDead
@@ -27,8 +32,17 @@ Public Module CharacterVerbExtensions
         {
             {VerbSubtypes.MOVE, AddressOf HandleMove},
             {VerbSubtypes.LOOK, AddressOf HandleLook},
-            {VerbSubtypes.STATUS, AddressOf HandleStatus}
+            {VerbSubtypes.STATUS, AddressOf HandleStatus},
+            {VerbSubtypes.POOP, AddressOf HandlePoop}
         }
+
+    Private Sub HandlePoop(verb As IVerb, character As ICharacter, actor As ICharacter)
+        Dim location = actor.Location
+        Dim feature = location.GetPooPile()
+        Dim amount = actor.GetBowel() \ 2
+        actor.DoChangeCounter(Counters.BOWEL, -amount)
+        feature.ChangeCounter(Counters.POO, amount)
+    End Sub
 
     Private Sub HandleStatus(verb As IVerb, character As ICharacter, actor As ICharacter)
         actor.ShowStatus()

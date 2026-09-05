@@ -11,6 +11,7 @@ Friend Module CharacterBiologyExtensions
         If stomach > 0 Then
             amount -= stomach
             character.DoChangeCounter(Counters.STOMACH, -stomach)
+            character.DoChangeCounter(Counters.BOWEL, stomach)
         End If
         Dim satiety = Math.Min(amount, character.GetSatiety())
         If satiety > 0 Then

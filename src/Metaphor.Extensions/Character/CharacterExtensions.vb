@@ -7,6 +7,7 @@ Public Module CharacterExtensions
     Public Sub ShowStatus(character As ICharacter)
         character.AddMessage($"Status:")
         character.AddMessage($"Stomach: {character.GetCounterStatistic(Counters.STOMACH)}")
+        character.AddMessage($"Bowel: {character.GetCounterStatistic(Counters.BOWEL)}")
         character.AddMessage($"Satiety: {character.GetCounterStatistic(Counters.SATIETY)}")
         character.AddMessage($"Health: {character.GetCounterStatistic(Counters.HEALTH)}")
     End Sub
@@ -52,6 +53,10 @@ Public Module CharacterExtensions
     <Extension>
     Friend Sub CreateLookVerb(character As ICharacter)
         character.CreateVerb(VerbSubtypes.LOOK, "Look")
+    End Sub
+    <Extension>
+    Friend Sub CreatePoopVerb(character As ICharacter)
+        character.CreateVerb(VerbSubtypes.POOP, "Poop!")
     End Sub
 #End Region
 End Module

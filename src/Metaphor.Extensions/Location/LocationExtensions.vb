@@ -30,4 +30,14 @@ Public Module LocationExtensions
         Return feature
     End Function
 #End Region
+#Region "Poo Pile"
+    <Extension>
+    Friend Function GetPooPile(location As ILocation) As IFeature
+        Dim feature = location.Features.SingleOrDefault(Function(x) x.EntitySubtype = FeatureSubtypes.POO_PILE)
+        If feature Is Nothing Then
+            feature = location.CreateFeature(FeatureSubtypes.POO_PILE, "poo pile", AddressOf FeatureInitializationExtensions.InitializePooPile)
+        End If
+        Return feature
+    End Function
+#End Region
 End Module
