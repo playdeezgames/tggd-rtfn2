@@ -41,7 +41,7 @@ Friend Class GroundItemStackMenu
     End Function
 
     Private Function ChooseItem(itemModel As IItemModel) As LaunchDelegate
-        Return Function(c, m, p) DialogChoice.CreateEnabled(itemModel.Name, GroundItemMenu.Launch(c, m, p, itemModel))
+        Return Function(c, m, p) DialogChoice.CreateEnabled($"{itemModel.Name}...", GroundItemMenu.Launch(c, m, p, itemModel))
     End Function
 
     Private Function ChooseNeverMind(context As IDisplayContext, model As IWorldModel, previous As DialogSource) As IDialogChoice

@@ -13,6 +13,9 @@ Public Module LocationExtensions
         If describers.TryGetValue(location.EntitySubtype, describer) Then
             describer(location)
         End If
+        If location.Inventory.HasItems Then
+            location.AddMessage("There is stuff on the ground.")
+        End If
     End Sub
 #End Region
 #Region "N00b"

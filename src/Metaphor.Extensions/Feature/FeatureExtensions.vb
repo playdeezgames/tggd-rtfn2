@@ -5,7 +5,14 @@ Public Module FeatureExtensions
     Private Delegate Sub FeatureDescriber(feature As IFeature)
     Private ReadOnly describers As New Dictionary(Of String, FeatureDescriber) From
         {
+            {FeatureSubtypes.POO_PILE, AddressOf DescribePooPile}
         }
+
+    Private Sub DescribePooPile(feature As IFeature)
+        DescribeFeature(feature)
+        feature.AddMessage($"{feature.Name} has {feature.GetCounter(Counters.POO)} poo.")
+    End Sub
+
     Private Sub DescribeFeature(feature As IFeature)
         feature.AddMessage($"This is a {feature.Name}.")
     End Sub

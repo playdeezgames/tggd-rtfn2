@@ -35,7 +35,7 @@ Friend Class FeatureItemStackMenu
 
     Private Function ChooseItem(itemModel As IItemModel) As LaunchDelegate
         Return Function(c, m, p)
-                   Return DialogChoice.CreateEnabled(itemModel.Name, FeatureItemMenu.Launch(c, m, p, featureModel, itemModel))
+                   Return DialogChoice.CreateEnabled($"{itemModel.Name}...", FeatureItemMenu.Launch(c, m, p, featureModel, itemModel))
                End Function
     End Function
 

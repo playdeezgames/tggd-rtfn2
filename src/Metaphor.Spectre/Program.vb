@@ -82,7 +82,8 @@ Module Program
         Dim selectionPrompt As New SelectionPrompt(Of Integer) With
             {
                 .Title = $"[olive]{Markup.Escape(prompt.Title)}[/]",
-                .Converter = Function(x) prompt.Choices(x)
+                .Converter = Function(x) prompt.Choices(x),
+                .SearchEnabled = prompt.Choices.Length > 1
             }
         selectionPrompt.AddChoices(Enumerable.Range(0, prompt.Choices.Length))
         prompt.Respond(counter:=AnsiConsole.Prompt(selectionPrompt))
