@@ -24,13 +24,16 @@ Friend Module MapInitializationExtensions
                    map.SetCounter(Counters.MAZE_COLUMN, mazeColumn)
                    map.SetCounter(Counters.MAZE_ROW, mazeRow)
                    map.World.AddToYokage(Yokages.MAZE_ROOMS, map.EntityId)
+                   Dim doorCount = 0
                    For Each direction In mazeCell.Directions
                        If mazeCell.GetDoor(direction).Open Then
+                           doorCount += 1
                            Dim doorLocation = map.GetMazeDoorLocation(direction)
                            map.GetLocation(doorLocation.Column, doorLocation.Row).Remove()
                            map.CreateLocation(LocationSubtypes.FLOOR, "floor", (doorLocation.Column, doorLocation.Row))
                        End If
                    Next
+                   map.SetDoorCount(doorCount)
                End Sub
     End Function
 End Module

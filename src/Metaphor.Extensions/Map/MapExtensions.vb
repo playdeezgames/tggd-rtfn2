@@ -4,6 +4,14 @@ Imports TGGD.Extensions
 
 Friend Module MapExtensions
     <Extension>
+    Friend Sub SetDoorCount(map As IMap, doorCount As Integer)
+        map.SetCounter(Counters.DOOR_COUNT, doorCount)
+    End Sub
+    <Extension>
+    Friend Function GetDoorCount(map As IMap) As Integer
+        Return map.GetCounter(Counters.DOOR_COUNT)
+    End Function
+    <Extension>
     Friend Function GetMazeColumn(map As IMap) As Integer
         Return map.GetCounter(Counters.MAZE_COLUMN)
     End Function

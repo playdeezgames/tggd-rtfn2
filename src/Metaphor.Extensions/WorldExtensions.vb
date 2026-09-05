@@ -36,11 +36,15 @@ Public Module WorldExtensions
             Dim mazeCell = maze.GetCell(mazeColumn, mazeRow)
             mazeRoom.PopulateDoors(mazeCell)
         Next
-
-
-        Dim map = world.GetMap(world.GetYokage(Yokages.MAZE_ROOMS).First())
-        map.GetLocation(map.Size.Columns \ 2, map.Size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
-
+        Dim candidates = world.GetMazeRooms().Where(Function(x) x.GetDoorCount() = 4)
+        If Not candidates.Any Then
+            candidates = world.GetMazeRooms().Where(Function(x) x.GetDoorCount() = 3)
+        End If
+        If Not candidates.Any Then
+            candidates = world.GetMazeRooms().Where(Function(x) x.GetDoorCount() = 2)
+        End If
+        Dim map = RNG.FromEnumerable(candidates)
+        map.GetLocation(Map.Size.Columns \ 2, Map.Size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, Map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
     <Extension>
     Private Function CreateMazeRoom(world As IWorld, mazeCell As MazeCell(Of String), mazeColumn As Integer, mazeRow As Integer) As IMap
