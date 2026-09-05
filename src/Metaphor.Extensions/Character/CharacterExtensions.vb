@@ -6,11 +6,18 @@ Public Module CharacterExtensions
     <Extension>
     Public Sub ShowStatus(character As ICharacter)
         character.AddMessage($"Status:")
+        character.AddMessage($"Stomach: {character.GetCounterStatistic(Counters.STOMACH)}")
+        character.AddMessage($"Satiety: {character.GetCounterStatistic(Counters.SATIETY)}")
+        character.AddMessage($"Health: {character.GetCounterStatistic(Counters.HEALTH)}")
     End Sub
 #End Region
 #Region "Look"
     <Extension>
     Public Sub Look(character As ICharacter)
+        If character.IsDead Then
+            character.AddMessage($"{character.Name} is dead.")
+            Return
+        End If
         Dim location = character.Location
         character.AddMessage($"{character.Name} is on {location.Name}.")
         location.Describe()

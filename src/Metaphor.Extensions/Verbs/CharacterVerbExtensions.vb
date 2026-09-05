@@ -7,7 +7,12 @@ Public Module CharacterVerbExtensions
 
     Private ReadOnly canPerformTable As New Dictionary(Of String, CanPerformHandler) From
         {
+            {VerbSubtypes.MOVE, AddressOf CanMove}
         }
+
+    Private Function CanMove(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
+        Return Not actor.IsDead
+    End Function
 
     <Extension>
     Public Function CanPerform(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
@@ -44,6 +49,7 @@ Public Module CharacterVerbExtensions
             actor.AddMessage($"{actor.Name} cannot move {directionName}.")
         Else
             actor.AddMessage($"{actor.Name} moves {directionName}.")
+            actor.DoBiology(1)
             actor.Location = nextLocation
             actor.Look()
         End If
