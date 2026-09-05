@@ -21,7 +21,13 @@ Public Module ItemVerbExtensions
 #Region "Perform"
     Private ReadOnly performTable As New Dictionary(Of String, PerformHandler) From
         {
+            {VerbSubtypes.EAT, AddressOf HandleEat}
         }
+
+    Private Sub HandleEat(verb As IVerb, item As IItem, actor As ICharacter)
+        actor.DoChangeCounter(Counters.STOMACH, item.GetCounter(Counters.STOMACH))
+        item.Remove()
+    End Sub
 
     <Extension>
     Sub Perform(verb As IVerb, item As IItem, actor As ICharacter)

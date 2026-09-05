@@ -16,6 +16,14 @@ Friend Module CharacterBiologyExtensions
         If satiety > 0 Then
             amount -= satiety
             character.DoChangeCounter(Counters.SATIETY, -satiety)
+        Else
+            If character.IsCounterMaximum(Counters.SATIETY) Then
+                If Not character.IsCounterMaximum(Counters.HEALTH) Then
+                    character.DoChangeCounter(Counters.HEALTH, 1)
+                End If
+            Else
+                character.DoChangeCounter(Counters.SATIETY, 1)
+            End If
         End If
         If amount > 0 Then
             character.DoChangeCounter(Counters.HEALTH, -amount)

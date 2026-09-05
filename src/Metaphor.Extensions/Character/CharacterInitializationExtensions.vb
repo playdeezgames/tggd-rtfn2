@@ -13,7 +13,7 @@ Friend Module CharacterInitializationExtensions
         character.CreateLookVerb()
         character.CreateStatusVerb()
         character.InitializeCounter(Counters.SATIETY, 100, 0, 100)
-        character.InitializeCounter(Counters.HEALTH, 100, 0, 100)
+        character.InitializeCounter(Counters.HEALTH, 50, 0, 100)
         character.InitializeCounter(Counters.STOMACH, 0, 0, 50)
     End Sub
 #End Region

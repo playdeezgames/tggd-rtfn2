@@ -10,6 +10,7 @@ Friend Module GridExtensions
         }
     Private ReadOnly itemTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
+            {ItemSubtypes.FOOD, (CByte(Asc("f")), 12)}
         }
     Private ReadOnly characterTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {

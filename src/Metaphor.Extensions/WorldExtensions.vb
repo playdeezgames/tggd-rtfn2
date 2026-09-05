@@ -30,22 +30,53 @@ Public Module WorldExtensions
                 world.CreateMazeRoom(maze.GetCell(mazeColumn, mazeRow), mazeColumn, mazeRow)
             Next
         Next
-        For Each mazeRoom In world.GetMazeRooms()
+        Dim mazeRooms = world.GetMazeRooms()
+        For Each mazeRoom In mazeRooms
             Dim mazeColumn = mazeRoom.GetMazeColumn()
             Dim mazeRow = mazeRoom.GetMazeRow()
             Dim mazeCell = maze.GetCell(mazeColumn, mazeRow)
             mazeRoom.PopulateDoors(mazeCell)
         Next
-        Dim candidates = world.GetMazeRooms().Where(Function(x) x.GetDoorCount() = 4)
+        PopulateItems(mazeRooms)
+        Dim candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 4)
         If Not candidates.Any Then
-            candidates = world.GetMazeRooms().Where(Function(x) x.GetDoorCount() = 3)
+            candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 3)
         End If
         If Not candidates.Any Then
-            candidates = world.GetMazeRooms().Where(Function(x) x.GetDoorCount() = 2)
+            candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 2)
         End If
         Dim map = RNG.FromEnumerable(candidates)
         map.GetLocation(Map.Size.Columns \ 2, Map.Size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, Map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
+    Private Delegate Function ItemSpawner(location As ILocation) As Boolean
+    Private ReadOnly itemSpawnerDeets As New Dictionary(Of String, (Count As Integer, Spawner As ItemSpawner)) From
+        {
+            {ItemSubtypes.FOOD, (25, AddressOf SpawnFood)}
+        }
+
+    Private Function SpawnFood(location As ILocation) As Boolean
+        If location.Map.GetDoorCount() < 2 OrElse location.EntitySubtype <> LocationSubtypes.FLOOR Then
+            Return False
+        End If
+        location.Inventory.CreateItem(ItemSubtypes.FOOD, "food", AddressOf ItemInitializationExtensions.InitializeFood)
+        Return True
+    End Function
+
+    Private Sub PopulateItems(mazeRooms As IEnumerable(Of IMap))
+        For Each itemSpawnerDeet In itemSpawnerDeets
+            Utility.Repeat(itemSpawnerDeet.Value.Count, PopulateItem(mazeRooms, itemSpawnerDeet.Value.Spawner))
+        Next
+    End Sub
+
+    Private Function PopulateItem(mazeRooms As IEnumerable(Of IMap), Spawner As ItemSpawner) As Action
+        Return Sub()
+                   Dim location As ILocation
+                   Do
+                       location = RNG.FromEnumerable(RNG.FromEnumerable(mazeRooms).Locations)
+                   Loop Until Spawner(location)
+               End Sub
+    End Function
+
     <Extension>
     Private Function CreateMazeRoom(world As IWorld, mazeCell As MazeCell(Of String), mazeColumn As Integer, mazeRow As Integer) As IMap
         Return world.CreateMap(
