@@ -35,6 +35,7 @@ Public Module CharacterStatisticExtensions
             {Counters.SATIETY, "satiety"},
             {Counters.BOWEL, "bowel"},
             {Counters.INK, "ink"},
+            {Counters.SANITY, "sanity"},
             {Counters.COMPLETENESS, "completeness"}
         }
     <Extension>

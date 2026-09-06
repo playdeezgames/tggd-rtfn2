@@ -46,6 +46,7 @@ Public Module FeatureVerbExtensions
         Dim pen = actor.Inventory.GetItemsOfSubtype(ItemSubtypes.PEN).First(Function(x) Not x.IsCounterMinimum(Counters.INK))
         pen.DoChangeCounter(Counters.INK, -1)
         feature.DoChangeCounter(Counters.COMPLETENESS, 1)
+        actor.DoChangeCounter(Counters.SANITY, -1)
     End Sub
 
     Private Sub HandleUnlock(verb As IVerb, feature As IFeature, actor As ICharacter)

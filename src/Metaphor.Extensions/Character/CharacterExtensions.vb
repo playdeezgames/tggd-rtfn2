@@ -10,6 +10,7 @@ Public Module CharacterExtensions
         character.AddMessage($"Bowel: {character.GetCounterStatistic(Counters.BOWEL)}")
         character.AddMessage($"Satiety: {character.GetCounterStatistic(Counters.SATIETY)}")
         character.AddMessage($"Health: {character.GetCounterStatistic(Counters.HEALTH)}")
+        character.AddMessage($"Sanity: {character.GetCounterStatistic(Counters.SANITY)}")
     End Sub
 #End Region
 #Region "Look"

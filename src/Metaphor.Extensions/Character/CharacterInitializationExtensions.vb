@@ -14,9 +14,10 @@ Friend Module CharacterInitializationExtensions
         character.CreateStatusVerb()
         character.CreatePoopVerb()
         character.InitializeCounter(Counters.SATIETY, 100, 0, 100)
-        character.InitializeCounter(Counters.HEALTH, 50, 0, 100)
-        character.InitializeCounter(Counters.STOMACH, 50, 0, 50)
-        character.InitializeCounter(Counters.BOWEL, 50, 0, 50)
+        character.InitializeCounter(Counters.HEALTH, 100, 0, 100)
+        character.InitializeCounter(Counters.STOMACH, 0, 0, 50)
+        character.InitializeCounter(Counters.BOWEL, 0, 0, 50)
+        character.InitializeCounter(Counters.SANITY, 100, 0, 100)
     End Sub
 #End Region
 End Module

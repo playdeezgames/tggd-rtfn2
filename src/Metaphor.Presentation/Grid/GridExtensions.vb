@@ -46,7 +46,7 @@ Friend Module GridExtensions
             Dim cell = grid.Rows(location.Row).Cells(location.Column)
             cell.Character = deets.Text
             cell.Attribute = deets.Class
-            cell.ToolTip = If(character?.Name, If(feature?.Name, location.Name))
+            cell.ToolTip = If(character?.Name, If(feature?.Name, If(item?.Name, location.Name)))
         Next
     End Sub
 End Module

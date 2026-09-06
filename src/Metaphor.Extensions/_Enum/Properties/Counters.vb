@@ -13,6 +13,7 @@
     Friend Const MAZE_ROW As String = NameOf(MAZE_ROW)
     Friend Const MAZE_ROWS As String = NameOf(MAZE_ROWS)
     Friend Const POO As String = NameOf(POO)
+    Friend Const SANITY As String = NameOf(SANITY)
     Friend Const SATIETY As String = NameOf(SATIETY)
     Friend Const STOMACH As String = NameOf(STOMACH)
 End Class
