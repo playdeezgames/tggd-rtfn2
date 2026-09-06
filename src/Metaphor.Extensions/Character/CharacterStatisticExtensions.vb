@@ -33,21 +33,23 @@ Public Module CharacterStatisticExtensions
             {Counters.STOMACH, "stomach"},
             {Counters.HEALTH, "health"},
             {Counters.SATIETY, "satiety"},
-            {Counters.BOWEL, "bowel"}
+            {Counters.BOWEL, "bowel"},
+            {Counters.INK, "ink"},
+            {Counters.COMPLETENESS, "completeness"}
         }
     <Extension>
-    Friend Function DoChangeCounter(character As ICharacter, counterId As String, delta As Integer, Optional silent As Boolean = False) As Integer
+    Friend Function DoChangeCounter(entity As IMetaphorEntity, counterId As String, delta As Integer, Optional silent As Boolean = False) As Integer
         If delta <> 0 Then
             Dim counterName = counterNames(counterId)
-            character.AddMessage($"{character.Name} {If(delta > 0, "gains", "loses")} {Math.Abs(delta)} {counterName}.", silent:=silent)
-            character.ChangeCounter(counterId, delta)
-            If character.GetCounterMaximum(counterId) = Integer.MaxValue Then
-                character.AddMessage($"{character.Name} now has {character.GetCounter(counterId)} {counterName}.", silent:=silent)
+            entity.AddMessage($"{entity.Name} {If(delta > 0, "gains", "loses")} {Math.Abs(delta)} {counterName}.", silent:=silent)
+            entity.ChangeCounter(counterId, delta)
+            If entity.GetCounterMaximum(counterId) = Integer.MaxValue Then
+                entity.AddMessage($"{entity.Name} now has {entity.GetCounter(counterId)} {counterName}.", silent:=silent)
             Else
-                character.AddMessage($"{character.Name} now has {character.GetCounterStatistic(counterId)} {counterName}.", silent:=silent)
+                entity.AddMessage($"{entity.Name} now has {entity.GetCounterStatistic(counterId)} {counterName}.", silent:=silent)
             End If
         End If
-        Return character.GetCounter(counterId)
+        Return entity.GetCounter(counterId)
     End Function
 #End Region
 End Module

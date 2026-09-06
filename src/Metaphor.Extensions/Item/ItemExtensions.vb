@@ -6,7 +6,14 @@ Public Module ItemExtensions
     Private Delegate Sub ItemDescriber(item As IItem)
     ReadOnly describeTable As New Dictionary(Of String, ItemDescriber) From
         {
+            {ItemSubtypes.PEN, AddressOf DescribePen}
         }
+
+    Private Sub DescribePen(item As IItem)
+        DescribeItem(item)
+        item.AddMessage($"Ink: {item.GetCounterStatistic(Counters.INK)}")
+    End Sub
+
     Private Sub DescribeItem(item As IItem)
         item.AddMessage($"It is a {item.Name}.")
     End Sub

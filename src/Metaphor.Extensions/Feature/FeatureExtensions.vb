@@ -6,8 +6,14 @@ Public Module FeatureExtensions
     Private ReadOnly describers As New Dictionary(Of String, FeatureDescriber) From
         {
             {FeatureSubtypes.POO_PILE, AddressOf DescribePooPile},
-            {FeatureSubtypes.DOOR, AddressOf DescribeDoor}
+            {FeatureSubtypes.DOOR, AddressOf DescribeDoor},
+            {FeatureSubtypes.TAX_FORM, AddressOf DescribeTaxForm}
         }
+
+    Private Sub DescribeTaxForm(feature As IFeature)
+        DescribeFeature(feature)
+        feature.AddMessage($"Compleness: {feature.GetCounterPercentage(Counters.COMPLETENESS)}")
+    End Sub
 
     Private Sub DescribeDoor(feature As IFeature)
         DescribeFeature(feature)

@@ -1,10 +1,12 @@
 ﻿Friend NotInheritable Class Counters
     Private Sub New() : End Sub
     Friend Const BOWEL As String = NameOf(BOWEL)
+    Friend Const COMPLETENESS As String = NameOf(COMPLETENESS)
     Friend Const DELTA_X As String = NameOf(DELTA_X)
     Friend Const DELTA_Y As String = NameOf(DELTA_Y)
     Friend Const DOOR_COUNT As String = NameOf(DOOR_COUNT)
     Friend Const HEALTH As String = NameOf(HEALTH)
+    Friend Const INK As String = NameOf(INK)
     Friend Const KEY_COUNT As String = NameOf(KEY_COUNT)
     Friend Const MAZE_COLUMN As String = NameOf(MAZE_COLUMN)
     Friend Const MAZE_COLUMNS As String = NameOf(MAZE_COLUMNS)

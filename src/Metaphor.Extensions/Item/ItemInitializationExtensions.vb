@@ -11,5 +11,6 @@ Friend Module ItemInitializationExtensions
     End Sub
 
     Friend Sub InitializePen(item As IItem)
+        item.InitializeCounter(Counters.INK, 20, 0, 20)
     End Sub
 End Module

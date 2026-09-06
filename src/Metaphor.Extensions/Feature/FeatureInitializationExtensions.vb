@@ -6,5 +6,7 @@ Friend Module FeatureInitializationExtensions
     End Sub
 
     Friend Sub InitializeTaxForm(feature As IFeature)
+        feature.InitializeCounter(Counters.COMPLETENESS, 0, 0, 100)
+        feature.CreateVerb(VerbSubtypes.FILL_OUT, "Fill Out")
     End Sub
 End Module
