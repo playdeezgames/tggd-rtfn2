@@ -37,9 +37,23 @@ Public Module WorldExtensions
             Dim mazeCell = maze.GetCell(mazeColumn, mazeRow)
             mazeRoom.PopulateDoors(mazeCell)
         Next
+        world.SetCounter(Counters.KEY_COUNT, mazeRooms.Count(Function(x) x.GetDoorCount() = 1))
+        world.PopulateKeys(mazeRooms.Where(Function(x) x.GetDoorCount() > 1))
         PopulateItems(mazeRooms)
         PopulateAvatar(mazeRooms)
     End Sub
+    <Extension>
+    Private Sub PopulateKeys(world As IWorld, mazeRooms As IEnumerable(Of IMap))
+        Utility.Repeat(world.GetCounter(Counters.KEY_COUNT), PopulateKey(mazeRooms))
+    End Sub
+
+    Private Function PopulateKey(mazeRooms As IEnumerable(Of IMap)) As Action
+        Return Sub()
+                   Dim mazeRoom = RNG.FromEnumerable(mazeRooms)
+                   Dim location = RNG.FromEnumerable(mazeRoom.Locations.Where(Function(x) x.EntitySubtype = LocationSubtypes.FLOOR AndAlso Not x.HasFeatures AndAlso Not x.HasCharacters))
+                   location.CreateKey()
+               End Sub
+    End Function
 
     Private Sub PopulateAvatar(mazeRooms As IEnumerable(Of IMap))
         Dim candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 4)

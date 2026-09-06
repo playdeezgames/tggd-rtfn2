@@ -7,8 +7,13 @@ Public Module FeatureVerbExtensions
 #Region "Can Perform"
     Private ReadOnly canPerformTable As New Dictionary(Of String, CanPerformHandler) From
         {
-            {VerbSubtypes.ENTER, AddressOf CanEnter}
+            {VerbSubtypes.ENTER, AddressOf CanEnter},
+            {VerbSubtypes.UNLOCK, AddressOf CanUnlock}
         }
+
+    Private Function CanUnlock(verb As IVerb, feature As IFeature, actor As ICharacter) As Boolean
+        Return feature.HasTag(Tags.LOCKED) AndAlso actor.Inventory.HasItemOfSubtype(ItemSubtypes.KEY)
+    End Function
 
     Private Function CanEnter(verb As IVerb, feature As IFeature, actor As ICharacter) As Boolean
         Return Not feature.HasTag(Tags.LOCKED)
@@ -26,8 +31,16 @@ Public Module FeatureVerbExtensions
 #Region "Perform"
     Private ReadOnly performTable As New Dictionary(Of String, PerformHandler) From
         {
-            {VerbSubtypes.ENTER, AddressOf HandleEnter}
+            {VerbSubtypes.ENTER, AddressOf HandleEnter},
+            {VerbSubtypes.UNLOCK, AddressOf HandleUnlock}
         }
+
+    Private Sub HandleUnlock(verb As IVerb, feature As IFeature, actor As ICharacter)
+        actor.AddMessage($"{actor.Name} unlocks {feature.Name}.")
+        feature.ClearTag(Tags.LOCKED)
+        Dim key = actor.Inventory.GetItemsOfSubtype(ItemSubtypes.KEY).First
+        key.Remove()
+    End Sub
 
     Private Sub HandleEnter(verb As IVerb, feature As IFeature, actor As ICharacter)
         actor.AddMessage($"{actor.Name} enters {feature.Name}.")

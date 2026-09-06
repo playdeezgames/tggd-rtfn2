@@ -30,7 +30,14 @@ Public Module LocationExtensions
         Dim feature = fromLocation.CreateFeature(FeatureSubtypes.DOOR, "door", initializer)
         feature.SetDestination(toLocation)
         feature.CreateVerb(VerbSubtypes.ENTER, "Enter")
+        feature.CreateVerb(VerbSubtypes.UNLOCK, "Unlock")
         Return feature
+    End Function
+#End Region
+#Region "Key"
+    <Extension>
+    Friend Function CreateKey(location As ILocation) As IItem
+        Return location.Inventory.CreateItem(ItemSubtypes.KEY, "key", AddressOf ItemInitializationExtensions.InitializeKey)
     End Function
 #End Region
 #Region "Poo Pile"
