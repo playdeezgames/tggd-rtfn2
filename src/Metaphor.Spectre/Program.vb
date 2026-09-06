@@ -83,7 +83,8 @@ Module Program
             {
                 .Title = $"[olive]{Markup.Escape(prompt.Title)}[/]",
                 .Converter = Function(x) prompt.Choices(x),
-                .SearchEnabled = prompt.Choices.Length > 1
+                .SearchEnabled = prompt.Choices.Length > 1,
+                .PageSize = 5
             }
         selectionPrompt.AddChoices(Enumerable.Range(0, prompt.Choices.Length))
         prompt.Respond(counter:=AnsiConsole.Prompt(selectionPrompt))

@@ -5,8 +5,16 @@ Public Module FeatureExtensions
     Private Delegate Sub FeatureDescriber(feature As IFeature)
     Private ReadOnly describers As New Dictionary(Of String, FeatureDescriber) From
         {
-            {FeatureSubtypes.POO_PILE, AddressOf DescribePooPile}
+            {FeatureSubtypes.POO_PILE, AddressOf DescribePooPile},
+            {FeatureSubtypes.DOOR, AddressOf DescribeDoor}
         }
+
+    Private Sub DescribeDoor(feature As IFeature)
+        DescribeFeature(feature)
+        If feature.HasTag(Tags.LOCKED) Then
+            feature.AddMessage($"{feature.Name} is locked.")
+        End If
+    End Sub
 
     Private Sub DescribePooPile(feature As IFeature)
         DescribeFeature(feature)

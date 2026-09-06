@@ -57,7 +57,10 @@ Friend Module MapExtensions
                 Dim nextMap As IMap = map.World.GetMazeRoom(map.GetCounter(Counters.MAZE_COLUMN) + CInt(directionDeets.DeltaX), map.GetCounter(Counters.MAZE_ROW) + CInt(directionDeets.DeltaY))
                 Dim destinationPosition = nextMap.GetMazeDoorDestination(direction)
                 Dim doorPosition = map.GetMazeDoorLocation(direction)
-                map.GetLocation(doorPosition.Column, doorPosition.Row).CreateDoor(nextMap.GetLocation(destinationPosition.Column, destinationPosition.Row))
+                Dim door = map.GetLocation(doorPosition.Column, doorPosition.Row).CreateDoor(nextMap.GetLocation(destinationPosition.Column, destinationPosition.Row))
+                If nextMap.GetDoorCount() = 1 Then
+                    door.SetTag(Tags.LOCKED)
+                End If
             End If
         Next
     End Sub

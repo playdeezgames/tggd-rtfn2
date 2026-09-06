@@ -54,6 +54,12 @@ Friend Class Location
         End Get
     End Property
 
+    Public ReadOnly Property HasCharacters As Boolean Implements ILocation.HasCharacters
+        Get
+            Return GetYokage(Yokages.CHARACTERS).Any
+        End Get
+    End Property
+
     Protected Overrides ReadOnly Property Data As EntityData
         Get
             Return _data.Entities(EntityId)

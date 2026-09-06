@@ -26,8 +26,8 @@ Public Module LocationExtensions
 #End Region
 #Region "Door"
     <Extension>
-    Friend Function CreateDoor(fromLocation As ILocation, toLocation As ILocation) As IFeature
-        Dim feature = fromLocation.CreateFeature(FeatureSubtypes.DOOR, "door")
+    Friend Function CreateDoor(fromLocation As ILocation, toLocation As ILocation, Optional initializer As FeatureInitializer = Nothing) As IFeature
+        Dim feature = fromLocation.CreateFeature(FeatureSubtypes.DOOR, "door", initializer)
         feature.SetDestination(toLocation)
         feature.CreateVerb(VerbSubtypes.ENTER, "Enter")
         Return feature

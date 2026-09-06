@@ -7,7 +7,12 @@ Public Module FeatureVerbExtensions
 #Region "Can Perform"
     Private ReadOnly canPerformTable As New Dictionary(Of String, CanPerformHandler) From
         {
+            {VerbSubtypes.ENTER, AddressOf CanEnter}
         }
+
+    Private Function CanEnter(verb As IVerb, feature As IFeature, actor As ICharacter) As Boolean
+        Return Not feature.HasTag(Tags.LOCKED)
+    End Function
 
     <Extension>
     Public Function CanPerform(verb As IVerb, feature As IFeature, actor As ICharacter) As Boolean

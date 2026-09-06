@@ -38,6 +38,10 @@ Public Module WorldExtensions
             mazeRoom.PopulateDoors(mazeCell)
         Next
         PopulateItems(mazeRooms)
+        PopulateAvatar(mazeRooms)
+    End Sub
+
+    Private Sub PopulateAvatar(mazeRooms As IEnumerable(Of IMap))
         Dim candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 4)
         If Not candidates.Any Then
             candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 3)
@@ -46,8 +50,10 @@ Public Module WorldExtensions
             candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 2)
         End If
         Dim map = RNG.FromEnumerable(candidates)
-        map.GetLocation(Map.Size.Columns \ 2, Map.Size.Rows \ 2).CreateCharacter(CharacterSubtypes.N00B, Map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
+        Dim location = RNG.FromEnumerable(map.Locations.Where(Function(x) x.EntitySubtype = LocationSubtypes.FLOOR AndAlso Not x.HasFeatures AndAlso Not x.HasCharacters))
+        location.CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
+
     Private Delegate Function ItemSpawner(location As ILocation) As Boolean
     Private ReadOnly itemSpawnerDeets As New Dictionary(Of String, (Count As Integer, Spawner As ItemSpawner)) From
         {
@@ -55,7 +61,10 @@ Public Module WorldExtensions
         }
 
     Private Function SpawnFood(location As ILocation) As Boolean
-        If location.Map.GetDoorCount() < 2 OrElse location.EntitySubtype <> LocationSubtypes.FLOOR Then
+        If location.Map.GetDoorCount() < 2 OrElse
+            location.EntitySubtype <> LocationSubtypes.FLOOR OrElse
+            location.HasFeatures OrElse
+            location.HasCharacters Then
             Return False
         End If
         location.Inventory.CreateItem(ItemSubtypes.FOOD, "food", AddressOf ItemInitializationExtensions.InitializeFood)
