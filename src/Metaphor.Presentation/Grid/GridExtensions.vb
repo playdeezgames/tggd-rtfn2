@@ -7,11 +7,13 @@ Friend Module GridExtensions
     Private ReadOnly featureTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
             {FeatureSubtypes.DOOR, (CByte(Asc("+")), 6)},
-            {FeatureSubtypes.POO_PILE, (CByte(Asc("~")), 6)}
+            {FeatureSubtypes.POO_PILE, (CByte(Asc("~")), 6)},
+            {FeatureSubtypes.TAX_FORM, (CByte(Asc("T")), &HF0)}
         }
     Private ReadOnly itemTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
             {ItemSubtypes.FOOD, (CByte(Asc("f")), 12)},
+            {ItemSubtypes.PEN, (CByte(Asc("/")), 1)},
             {ItemSubtypes.KEY, (CByte(Asc("k")), 14)}
         }
     Private ReadOnly characterTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From

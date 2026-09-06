@@ -39,9 +39,11 @@ Public Module WorldExtensions
         Next
         world.SetCounter(Counters.KEY_COUNT, mazeRooms.Count(Function(x) x.GetDoorCount() = 1))
         world.PopulateKeys(mazeRooms.Where(Function(x) x.GetDoorCount() > 1))
-        PopulateItems(mazeRooms)
+        Populate(mazeRooms)
         PopulateAvatar(mazeRooms)
     End Sub
+#Region "Populate Keys"
+
     <Extension>
     Private Sub PopulateKeys(world As IWorld, mazeRooms As IEnumerable(Of IMap))
         Utility.Repeat(world.GetCounter(Counters.KEY_COUNT), PopulateKey(mazeRooms))
@@ -54,6 +56,7 @@ Public Module WorldExtensions
                    location.CreateKey()
                End Sub
     End Function
+#End Region
 
     Private Sub PopulateAvatar(mazeRooms As IEnumerable(Of IMap))
         Dim candidates = mazeRooms.Where(Function(x) x.GetDoorCount() = 4)
@@ -67,12 +70,31 @@ Public Module WorldExtensions
         Dim location = RNG.FromEnumerable(map.Locations.Where(Function(x) x.EntitySubtype = LocationSubtypes.FLOOR AndAlso Not x.HasFeatures AndAlso Not x.HasCharacters))
         location.CreateCharacter(CharacterSubtypes.N00B, map.World.GetMetadata(Metadatas.CHOSEN_NAME), AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Sub
+#Region "Populate Items"
 
-    Private Delegate Function ItemSpawner(location As ILocation) As Boolean
-    Private ReadOnly itemSpawnerDeets As New Dictionary(Of String, (Count As Integer, Spawner As ItemSpawner)) From
+    Private Delegate Function Spawner(location As ILocation) As Boolean
+    Private ReadOnly itemSpawnerDeets As New Dictionary(Of String, (Count As Integer, Spawner As Spawner)) From
         {
-            {ItemSubtypes.FOOD, (25, AddressOf SpawnFood)}
+            {ItemSubtypes.FOOD, (25, AddressOf SpawnFood)},
+            {FeatureSubtypes.TAX_FORM, (25, AddressOf SpawnTaxForm)},
+            {ItemSubtypes.PEN, (5, AddressOf SpawnPen)}
         }
+
+    Private Function SpawnPen(location As ILocation) As Boolean
+        If location.EntitySubtype <> LocationSubtypes.FLOOR Then
+            Return False
+        End If
+        location.Inventory.CreatePen()
+        Return True
+    End Function
+
+    Private Function SpawnTaxForm(location As ILocation) As Boolean
+        If location.EntitySubtype <> LocationSubtypes.FLOOR Then
+            Return False
+        End If
+        location.CreateTaxForm()
+        Return True
+    End Function
 
     Private Function SpawnFood(location As ILocation) As Boolean
         If location.Map.GetDoorCount() < 2 OrElse
@@ -85,13 +107,13 @@ Public Module WorldExtensions
         Return True
     End Function
 
-    Private Sub PopulateItems(mazeRooms As IEnumerable(Of IMap))
+    Private Sub Populate(mazeRooms As IEnumerable(Of IMap))
         For Each itemSpawnerDeet In itemSpawnerDeets
             Utility.Repeat(itemSpawnerDeet.Value.Count, PopulateItem(mazeRooms, itemSpawnerDeet.Value.Spawner))
         Next
     End Sub
 
-    Private Function PopulateItem(mazeRooms As IEnumerable(Of IMap), Spawner As ItemSpawner) As Action
+    Private Function PopulateItem(mazeRooms As IEnumerable(Of IMap), Spawner As Spawner) As Action
         Return Sub()
                    Dim location As ILocation
                    Do
@@ -99,6 +121,7 @@ Public Module WorldExtensions
                    Loop Until Spawner(location)
                End Sub
     End Function
+#End Region
 
     <Extension>
     Private Function CreateMazeRoom(world As IWorld, mazeCell As MazeCell(Of String), mazeColumn As Integer, mazeRow As Integer) As IMap

@@ -9,4 +9,7 @@ Friend Module ItemInitializationExtensions
 
     Friend Sub InitializeKey(item As IItem)
     End Sub
+
+    Friend Sub InitializePen(item As IItem)
+    End Sub
 End Module

@@ -50,4 +50,10 @@ Public Module LocationExtensions
         Return feature
     End Function
 #End Region
+#Region "Tax Form"
+    <Extension>
+    Friend Function CreateTaxForm(location As ILocation) As IFeature
+        Return location.CreateFeature(FeatureSubtypes.TAX_FORM, "Tax Form", AddressOf FeatureInitializationExtensions.InitializeTaxForm)
+    End Function
+#End Region
 End Module
