@@ -12,11 +12,11 @@ Public Module CharacterVerbExtensions
         }
 
     Private Function CanPoop(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
-        Return actor.GetCounter(Counters.BOWEL) >= actor.GetCounterMaximum(Counters.BOWEL) \ 2
+        Return actor.CanAct AndAlso actor.GetCounter(Counters.BOWEL) >= actor.GetCounterMaximum(Counters.BOWEL) \ 2
     End Function
 
     Private Function CanMove(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
-        Return Not actor.IsDead
+        Return actor.CanAct
     End Function
 
     <Extension>

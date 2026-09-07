@@ -11,6 +11,14 @@ Public Module CharacterStatisticExtensions
         Return character.IsCounterMinimum(Counters.HEALTH)
     End Function
     <Extension>
+    Public Function CanAct(character As ICharacter) As Boolean
+        Return Not character.IsDead AndAlso Not character.IsInsane
+    End Function
+    <Extension>
+    Public Function IsInsane(character As ICharacter) As Boolean
+        Return character.IsCounterMinimum(Counters.SANITY)
+    End Function
+    <Extension>
     Friend Function GetStomach(character As ICharacter) As Integer
         Return character.GetCounter(Counters.STOMACH)
     End Function

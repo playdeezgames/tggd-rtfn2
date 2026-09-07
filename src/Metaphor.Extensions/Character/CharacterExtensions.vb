@@ -19,6 +19,9 @@ Public Module CharacterExtensions
         If character.IsDead Then
             character.AddMessage($"{character.Name} is dead.")
             Return
+        ElseIf character.IsInsane Then
+            character.AddMessage($"{character.Name} is insane.")
+            Return
         End If
         Dim location = character.Location
         character.AddMessage($"{character.Name} is on {location.Name}.")
