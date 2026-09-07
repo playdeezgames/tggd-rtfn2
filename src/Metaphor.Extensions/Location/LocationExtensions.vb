@@ -24,6 +24,12 @@ Public Module LocationExtensions
         Return location.CreateCharacter(CharacterSubtypes.N00B, name, AddressOf CharacterInitializationExtensions.InitializeN00b)
     End Function
 #End Region
+#Region "Ink Well"
+    <Extension>
+    Friend Function CreateInkWell(location As ILocation) As IFeature
+        Return location.CreateFeature(FeatureSubtypes.INK_WELL, "Ink Well", AddressOf ItemInitializationExtensions.InitializeInkWell)
+    End Function
+#End Region
 #Region "Door"
     <Extension>
     Friend Function CreateDoor(fromLocation As ILocation, toLocation As ILocation, Optional initializer As FeatureInitializer = Nothing) As IFeature

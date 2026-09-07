@@ -13,4 +13,8 @@ Friend Module ItemInitializationExtensions
     Friend Sub InitializePen(item As IItem)
         item.InitializeCounter(Counters.INK, 20, 0, 20)
     End Sub
+
+    Friend Sub InitializeInkWell(feature As IFeature)
+        feature.CreateVerb(VerbSubtypes.REFILL_PEN, "Refill Pen")
+    End Sub
 End Module

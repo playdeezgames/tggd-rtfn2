@@ -10,8 +10,13 @@ Public Module FeatureVerbExtensions
             {VerbSubtypes.ENTER, AddressOf CanEnter},
             {VerbSubtypes.UNLOCK, AddressOf CanUnlock},
             {VerbSubtypes.FILL_OUT, AddressOf CanFillOut},
-            {VerbSubtypes.SIGN, AddressOf CanSign}
+            {VerbSubtypes.SIGN, AddressOf CanSign},
+            {VerbSubtypes.REFILL_PEN, AddressOf CanRefillPen}
         }
+
+    Private Function CanRefillPen(verb As IVerb, feature As IFeature, actor As ICharacter) As Boolean
+        Return actor.Inventory.GetItemsOfSubtype(ItemSubtypes.PEN).Any(Function(x) Not x.IsCounterMaximum(Counters.INK))
+    End Function
 
     Private Function CanSign(verb As IVerb, feature As IFeature, actor As ICharacter) As Boolean
         Return feature.IsCounterMaximum(Counters.COMPLETENESS) AndAlso
@@ -46,8 +51,14 @@ Public Module FeatureVerbExtensions
             {VerbSubtypes.ENTER, AddressOf HandleEnter},
             {VerbSubtypes.UNLOCK, AddressOf HandleUnlock},
             {VerbSubtypes.FILL_OUT, AddressOf HandleFillOut},
-            {VerbSubtypes.SIGN, AddressOf HandleSign}
+            {VerbSubtypes.SIGN, AddressOf HandleSign},
+            {VerbSubtypes.REFILL_PEN, AddressOf HandleRefillPen}
         }
+
+    Private Sub HandleRefillPen(verb As IVerb, feature As IFeature, actor As ICharacter)
+        Dim pen = actor.Inventory.GetItemsOfSubtype(ItemSubtypes.PEN).First(Function(x) Not x.IsCounterMaximum(Counters.INK))
+        pen.DoChangeCounter(Counters.INK, pen.GetCounterCapacity(Counters.INK))
+    End Sub
 
     Private Sub HandleFillOut(verb As IVerb, feature As IFeature, actor As ICharacter)
         Dim pen = actor.Inventory.GetItemsOfSubtype(ItemSubtypes.PEN).First(Function(x) Not x.IsCounterMinimum(Counters.INK))

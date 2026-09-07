@@ -73,12 +73,21 @@ Public Module WorldExtensions
 #Region "Populate Items"
 
     Private Delegate Function Spawner(location As ILocation) As Boolean
-    Private ReadOnly itemSpawnerDeets As New Dictionary(Of String, (Count As Integer, Spawner As Spawner)) From
+    Private ReadOnly itemSpawnerDeets As New List(Of (Count As Integer, Spawner As Spawner)) From
         {
-            {ItemSubtypes.FOOD, (25, AddressOf SpawnFood)},
-            {FeatureSubtypes.TAX_FORM, (25, AddressOf SpawnTaxForm)},
-            {ItemSubtypes.PEN, (5, AddressOf SpawnPen)}
+            (100, AddressOf SpawnFood),
+            (25, AddressOf SpawnTaxForm),
+            (5, AddressOf SpawnPen),
+            (5, AddressOf SpawnInkWell)
         }
+
+    Private Function SpawnInkWell(location As ILocation) As Boolean
+        If location.EntitySubtype <> LocationSubtypes.FLOOR AndAlso Not location.HasFeatures AndAlso Not location.HasCharacters Then
+            Return False
+        End If
+        location.CreateInkWell()
+        Return True
+    End Function
 
     Private Function SpawnPen(location As ILocation) As Boolean
         If location.EntitySubtype <> LocationSubtypes.FLOOR Then
@@ -109,7 +118,7 @@ Public Module WorldExtensions
 
     Private Sub Populate(mazeRooms As IEnumerable(Of IMap))
         For Each itemSpawnerDeet In itemSpawnerDeets
-            Utility.Repeat(itemSpawnerDeet.Value.Count, PopulateItem(mazeRooms, itemSpawnerDeet.Value.Spawner))
+            Utility.Repeat(itemSpawnerDeet.Count, PopulateItem(mazeRooms, itemSpawnerDeet.Spawner))
         Next
     End Sub
 

@@ -8,6 +8,7 @@ Friend Module GridExtensions
         {
             {FeatureSubtypes.DOOR, (CByte(Asc("+")), 6)},
             {FeatureSubtypes.POO_PILE, (CByte(Asc("~")), 6)},
+            {FeatureSubtypes.INK_WELL, (CByte(Asc("I")), 9)},
             {FeatureSubtypes.TAX_FORM, (CByte(Asc("T")), &HF0)}
         }
     Private ReadOnly itemTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From

@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Metaphor.Persistence
+Imports TGGD.Extensions
 
 Public Module CharacterVerbExtensions
     Private Delegate Function CanPerformHandler(verb As IVerb, character As ICharacter, actor As ICharacter) As Boolean
@@ -62,6 +63,11 @@ Public Module CharacterVerbExtensions
         If nextLocation Is Nothing OrElse nextLocation.HasTag(Tags.BLOCKED) Then
             actor.AddMessage($"{actor.Name} cannot move {directionName}.")
         Else
+            If Not actor.IsCounterMaximum(Counters.SANITY) Then
+                If RNG.FromGenerator(RNG.MakeBooleanGenerator(1, 1)) Then
+                    actor.DoChangeCounter(Counters.SANITY, 1)
+                End If
+            End If
             actor.AddMessage($"{actor.Name} moves {directionName}.")
             actor.DoBiology(1)
             actor.Location = nextLocation
