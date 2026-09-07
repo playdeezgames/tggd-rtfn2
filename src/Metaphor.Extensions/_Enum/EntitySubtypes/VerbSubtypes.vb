@@ -6,6 +6,7 @@
     Friend Const LOOK As String = NameOf(LOOK)
     Friend Const MOVE As String = NameOf(MOVE)
     Friend Const POOP As String = NameOf(POOP)
+    Friend Const SIGN As String = NameOf(SIGN)
     Friend Const STATUS As String = NameOf(STATUS)
     Friend Const UNLOCK As String = NameOf(UNLOCK)
 End Class
