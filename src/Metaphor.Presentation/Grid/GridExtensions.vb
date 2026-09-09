@@ -19,7 +19,7 @@ Friend Module GridExtensions
         }
     Private ReadOnly characterTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
-            {CharacterSubtypes.N00B, (2, &HF)}
+            {CharacterSubtypes.N00B, (CByte(Asc("@")), &HF)}
         }
     Private ReadOnly locationTypeDeets As New Dictionary(Of String, (Text As Byte, [Class] As Byte)) From
         {
