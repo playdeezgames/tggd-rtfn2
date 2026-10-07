@@ -8,7 +8,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The author calls their games "interactive experiences (Metaphors)": the mechanic and presentation are the message. Keep the "of SPLORR!!" branding, keep text short and deadpan, and don't "fix" difficulty that exists to make the metaphor land. The author's Obsidian vault (`/home/yermom/git/bok-of-splorr/splorr/`, outside this repo) holds design notes, e.g. `Concepts/Metaphor design.md`, `Tech/Shipping to itch.io.md` and `Gotchas.md`.
 
-## Commands
+## Odin port (in progress)
+
+The game is being ported to Odin compiled to `js_wasm32`, modeled on the Shark Attackers of SPLORR!! port. Read `docs/PORT_PLAN.md` (verified rules of the original, decisions, phases) and `docs/QUIRKS.md` (oddities of the original that the port reproduces on purpose; decide after shipping, do not fix silently) before touching it. The VB.NET code in `src/` stays until the port ships.
+
+```bash
+odin/test.sh            # native tests (one thread; the soak test takes ~15 s)
+odin/build.sh           # builds odin/out (game.wasm, odin.js, index.html, fonts)
+python3 -m http.server 8123 -d odin/out   # then open http://localhost:8123/ (not file://)
+```
+
+- `odin/game.odin` rules and world generation (no browser imports), `screens.odin` menu state machine producing a `View`, `save.odin` JSON save (`feretory:save` in localStorage) with strict validation, `web.odin` (`#+build js`) the only file with browser imports, `web/index.html` the DOM renderer.
+- Odin is at `/home/yermom/ODIN/odin` (override with `$ODIN`). Test files are `#+build !js`.
+- Keep `Gämë Mënü` with its umlauts (a sponsor gag).
+- Do not run `shippit.sh` or push unless the user says so.
+
+## Commands (original VB.NET build)
 
 Everything lives under `src/` (.NET 10, solution `src/Metaphor.slnx`). There are no tests or linters in the repo.
 
