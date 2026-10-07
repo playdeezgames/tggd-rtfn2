@@ -1,6 +1,6 @@
 # Port plan: VB.NET to Odin / `js_wasm32`
 
-Status: phases 0 to 3 and 4 (saving) are done and tested (`odin/test.sh`, 48 tests; the browser build was played through by hand). Phase 5 (ship, delete `src/`) waits for the user. The original lives in `src/` (VB.NET, Spectre.Console and Blazor front ends) and is deleted only after the port ships.
+Status: done. Shipped to itch.io on 2026-10-07 and `src/` deleted; the VB.NET original is in git history up to commit `5774c50`. References to `src/` below are to that history.
 Model: the Shark Attackers of SPLORR!! port (`/home/yermom/git/shark-attackers-of-splorr`, `docs/PORT_PLAN.md`). Same toolchain and file split.
 
 ## Decisions (the user's, 2026-10-07)

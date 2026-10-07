@@ -8,9 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The author calls their games "interactive experiences (Metaphors)": the mechanic and presentation are the message. Keep the "of SPLORR!!" branding, keep text short and deadpan, and don't "fix" difficulty that exists to make the metaphor land. The author's Obsidian vault (`/home/yermom/git/bok-of-splorr/splorr/`, outside this repo) holds design notes, e.g. `Concepts/Metaphor design.md`, `Tech/Shipping to itch.io.md` and `Gotchas.md`.
 
-## Odin port (in progress)
+## Overview
 
-The game is being ported to Odin compiled to `js_wasm32`, modeled on the Shark Attackers of SPLORR!! port. Read `docs/PORT_PLAN.md` (verified rules of the original, decisions, phases) and `docs/QUIRKS.md` (oddities of the original that the port reproduces on purpose; decide after shipping, do not fix silently) before touching it. The VB.NET code in `src/` stays until the port ships.
+The game is Odin compiled to `js_wasm32`, shipped to itch.io as a browser game. It was ported from VB.NET (Spectre.Console and Blazor front ends), which lives in git history up to commit `5774c50`. Read `docs/PORT_PLAN.md` (verified rules of the original, decisions) and `docs/QUIRKS.md` (what was kept or changed from the original, and why) before changing game behavior.
 
 ```bash
 odin/test.sh            # native tests (one thread; the soak test takes ~15 s)
@@ -21,39 +21,4 @@ python3 -m http.server 8123 -d odin/out   # then open http://localhost:8123/ (no
 - `odin/game.odin` rules and world generation (no browser imports), `screens.odin` menu state machine producing a `View`, `save.odin` JSON save (`feretory:save` in localStorage) with strict validation, `web.odin` (`#+build js`) the only file with browser imports, `web/index.html` the DOM renderer.
 - Odin is at `/home/yermom/ODIN/odin` (override with `$ODIN`). Test files are `#+build !js`.
 - Keep `Gämë Mënü` with its umlauts (a sponsor gag).
-- Do not run `shippit.sh` or push unless the user says so.
-
-## Commands (original VB.NET build)
-
-Everything lives under `src/` (.NET 10, solution `src/Metaphor.slnx`). There are no tests or linters in the repo.
-
-```bash
-dotnet build src/Metaphor.slnx
-dotnet run --project src/Metaphor.Spectre/Metaphor.Spectre.vbproj   # terminal build
-dotnet run --project src/Metaphor.Blazor/Metaphor.Blazor.csproj     # browser build (WASM dev server)
-```
-
-Projects set `TreatWarningsAsErrors` and `OptionStrict On`, so warnings break the build.
-
-### Shipping
-
-`shippit.sh` publishes self-contained single-file builds for linux/windows/mac (Spectre) plus the Blazor WASM build, deletes `.pdb` files, then runs `butler push` to the itch.io channels `windows`, `linux`, `mac` and `html`.
-
-- It is not executable: run it as `bash shippit.sh` from the repo root.
-- It publishes publicly. Only run it when the user explicitly asks, and commit first so live matches the repo.
-
-## Architecture
-
-Mostly VB.NET (Blazor project is C#/Razor). Projects come in `Metaphor.*` (game-specific) and `TGGD.*` (reusable framework) pairs, grouped in the solution by layer number:
-
-1. **Provision**: serializable data classes (`WorldData`, `EntityData`, `MessageData`) used for save/load.
-2. **Persistence**: entity/world state wrappers (`IEntity`, `IWorld`, `ICharacter`, ...) over the provision data, plus the `IPersister` interface (`SaveAsync`/`LoadAsync` of a filename and a string).
-3. **Extensions**: extension methods over persistence types holding the game logic (characters, features, items, locations, maps, verbs, `TGGD.Extensions.Maze` generation, `RNG`).
-4. **Models**: `IModel`/`WorldModel`, which wrap the world and its persister. Note the root namespace here is `*.Processing`, not `*.Models`.
-5. **Presentation**: dialog/menu/prompt/grid abstractions (`IDialog`, `IDialogPrompt`, `IGrid`, `IDisplayContext`). `Metaphor.Presentation` has the actual screens (Boilerplate menus, `Embark`, `InPlay`).
-6. **Platform**: `IDisplay`/`Display` exposes the current `Grid`, `Elements` (narrative text, titles, links, tagged with hints such as `ElementTypes`/`HintNames`) and a `Prompt`. `MetaphorDisplay.Create(quittable, persister)` starts at the Title screen.
-7. **Play**: frontends, each a thin renderer over `IDisplay`.
-   - `Metaphor.Spectre`: Spectre.Console loop (clear, render grid and elements, read the prompt by `DialogPromptType`). Its `Persister` writes files.
-   - `Metaphor.Blazor`: WASM page `Pages/Home.razor` renders the same grid and elements as HTML tables.
-
-Dependencies flow downward only: a frontend references `Metaphor.Platform`, which references `Metaphor.Presentation` and `TGGD.Platform`. Game logic should live in Extensions/Models, never in a frontend. When adding a new frontend feature, extend the `IDisplay` contract so both frontends keep working.
+- `./shippit.sh` tests, builds and zips; `--push` uploads to itch.io (`thegrumpygamedev/feretory-of-splorr:html`, public). Do not run it with `--push`, or `git push`, unless the user says so. Commit first so live matches the repo.

@@ -13,7 +13,7 @@ A turn-based maze crawl through a 5 by 4 grid of rooms. Eat, poop, keep your san
 
 ## Building
 
-The game is being ported from VB.NET (`src/`) to Odin compiled to WebAssembly (`odin/`). See `docs/PORT_PLAN.md` for the rules and the plan, and `docs/QUIRKS.md` for the changes made along the way.
+The game is Odin compiled to WebAssembly (`odin/`). It was ported from VB.NET; see `docs/PORT_PLAN.md` for the rules and `docs/QUIRKS.md` for the changes made along the way.
 
 ```bash
 odin/test.sh                                # tests
@@ -21,7 +21,7 @@ odin/build.sh                               # builds odin/out
 python3 -m http.server 8123 -d odin/out     # then open http://localhost:8123/
 ```
 
-The original VB.NET version builds with `dotnet build src/Metaphor.slnx`.
+The original VB.NET version is in git history up to commit `5774c50`.
 
 ## Notes
 
