@@ -1,5 +1,7 @@
 # Feretory of SPLORR!!
 
+**Latest version:** https://playdeezgames.github.io/tggd-rtfn2/
+
 *A metaphor about forms. And poop.*
 
 You wake up in a room. The room has doors. Beyond the doors are more rooms, twenty in all, and somewhere in them are food, pens, ink wells, keys and a great many tax forms.
