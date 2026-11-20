@@ -13,7 +13,7 @@ A turn-based maze crawl through a 5 by 4 grid of rooms. Eat, poop, keep your san
 
 ## Building
 
-The game is Odin compiled to WebAssembly (`odin/`). It was ported from VB.NET; see `docs/PORT_PLAN.md` for the rules and `docs/QUIRKS.md` for the changes made along the way.
+The game is Odin compiled to WebAssembly (`odin/`). It was ported from VB.NET; see `design/PORT_PLAN.md` for the rules and `design/QUIRKS.md` for the changes made along the way.
 
 ```bash
 odin/test.sh                                # tests

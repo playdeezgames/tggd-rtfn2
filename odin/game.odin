@@ -2,7 +2,7 @@ package feretory
 
 // Pure game rules and world generation. No browser imports, so everything here
 // runs under `odin test`. Ported from the VB.NET game in ../src
-// (see ../docs/PORT_PLAN.md for the verified behavior).
+// (see ../design/PORT_PLAN.md for the verified behavior).
 
 import "core:fmt"
 import "core:math/rand"

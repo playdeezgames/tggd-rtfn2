@@ -10,7 +10,7 @@ The author calls their games "interactive experiences (Metaphors)": the mechanic
 
 ## Overview
 
-The game is Odin compiled to `js_wasm32`, shipped to itch.io as a browser game. It was ported from VB.NET (Spectre.Console and Blazor front ends), which lives in git history up to commit `5774c50`. Read `docs/PORT_PLAN.md` (verified rules of the original, decisions) and `docs/QUIRKS.md` (what was kept or changed from the original, and why) before changing game behavior.
+The game is Odin compiled to `js_wasm32`, shipped to itch.io as a browser game. It was ported from VB.NET (Spectre.Console and Blazor front ends), which lives in git history up to commit `5774c50`. Read `design/PORT_PLAN.md` (verified rules of the original, decisions) and `design/QUIRKS.md` (what was kept or changed from the original, and why) before changing game behavior.
 
 ```bash
 odin/test.sh            # native tests (one thread; the soak test takes ~15 s)
